@@ -1,356 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Secure Notepad</title>
-    <style>
-        /* Reset default styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <title>Secure Notepad</title>
+  <style>
+    /* Reset default styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Set background color */
-        body {
-            background-color: #1a1a1a;
-            animation: fadeIn 1s ease-in-out forwards;
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+    /* Set background color */
+    body {
+      background-color: #1a1a1a;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
 
-     
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
 
-        /* Add styles for header */
-        .header-wrapper {
-            background-color: #1a1a1a;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1;
-        }
+      to {
+        opacity: 1;
+      }
+    }
 
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            
-        }
+    /* Add styles for header */
+    .header-wrapper {
+      background-color: #1a1a1a;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+    }
 
-        .logo {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-       h1 {
-        font-family: 'Papyrus', cursive;
-        font-size: 36px;
-        font-weight: bold;
-        
-        letter-spacing: 2px;
-        background: linear-gradient(to right, #9370DB, #FF1493);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: gradient 5s ease infinite;
+    .logo {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+    }
+
+    h1 {
+      font-family: "Papyrus", cursive;
+      font-size: 36px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      background: linear-gradient(to right, #9370db, #ff1493);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient 5s ease infinite;
     }
 
     @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
-        /* Add styles for video container */
-        .video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
+    /* Add styles for video container */
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
 
-        video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -1;
-        }
+    video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+    }
 
-        /* Add styles for content container */
-        .content-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 50px;
-  box-sizing: border-box;
-}
+    /* Add styles for content container */
+    .content-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 50px;
+      box-sizing: border-box;
+    }
 
-.content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 1; /* Set initial opacity to 1 */
-  transform: translateY(0); /* Set initial transform to 0 */
-  text-align: center;
-  font-size: medium;
-  color: white; /* Set font color to white */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Add text shadow */
-  margin-top: 100px;
-}
+    .content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transform: translateY(0);
+      text-align: center;
+      font-size: medium;
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      margin-top: 100px;
+    }
 
-.crossbar {
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 20px;
-  display: block;
-  text-align: center; /* Center align content */
-  transition: background-color 0.5s ease-in-out; /* Add transition */
-}
+    .crossbar {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+      display: block;
+      text-align: center;
+      transition: background-color 0.5s ease-in-out;
+    }
 
+    h2 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
+    p {
+      font-size: 20px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
 
-h2 {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
+    ul {
+      list-style: none;
+      margin-bottom: 20px;
+    }
 
-p {
-  font-size: 20px;
-  line-height: 1.5;
-  margin-bottom: 20px;
-}
+    li {
+      margin-bottom: 10px;
+    }
 
-ul {
-  list-style: none;
-  margin-bottom: 20px;
-}
+    /* Add hover effect */
+    .crossbar:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+    }
 
-li {
-  margin-bottom: 10px;
-}
+    /* Add styles for navigation bar */
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background-color: #1a1a1a;
+      z-index: 2;
+    }
 
-/* Add hover effect */
-.crossbar:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  cursor: pointer;
-}
+    .nav-bar ul {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-        .dropdown {
-    position: absolute;
-    top: 50%;
-  left: 8%;
-  transform: translateY(-50%);
-    display: inline-block;
-    z-index: 999;
-  }
+    .nav-bar li {
+      margin: 0 20px;
+    }
 
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    z-index: 1;
-    top: 100%;
-    background-color: purple;
-  }
+    .nav-bar a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+    }
 
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+    .nav-bar a:hover {
+      color: #9370db;
+    }
 
-  .dropdown-content a {
-    color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
+    /* Add styles for download button */
+    .download-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      background-color: #9370db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+    }
 
-  .dropdown-content a:hover {
-    background-color: #ccc;
-    color: black;
-  }
-  .dropdown button {
-  background-color: transparent;
-}
-        a {
-  text-decoration: none !important;
-}
-            </style>
+    .download-button:hover {
+      background-color: #ff1493;
+    }
+
+    /* Add styles for OS selection popup */
+    #os-select {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+      width: 300px;
+      font-family: Arial, sans-serif;
+      display: none;
+    }
+
+    #os-select h3 {
+      margin-bottom: 10px;
+    }
+
+    #os-select select {
+      margin-bottom: 10px;
+    }
+
+    #os-select button {
+      background-color: #9370db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    #os-select button:hover {
+      background-color: #ff1493;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="header-wrapper">
-        <div class="header">
-            <a href="https://securenotepad.live/">
-            <img src="https://securenotepad.s3.ap-south-1.amazonaws.com/icon.png" alt="Logo" class="logo">
-        </a>
-            <a href="https://securenotepad.live/"><h1 class="logo-text">Secure Notepad</h1></a>
-            <div class="dropdown">
-        
-          <img src="https://securenotepad.s3.ap-south-1.amazonaws.com/ic.png" alt="Options" width="30" height="30">
-          
-        
-        <div class="dropdown-content">
-          <a href="https://securenotepad.s3.ap-south-1.amazonaws.com/Deployment.pdf">DEPLOYMENT</a>
-          <a href="https://securenotepad.s3.ap-south-1.amazonaws.com/User+Manual.pdf">USER MANUAL</a>
-          <a  id="download-link">DOWNLOAD</a>
+  <div class="header-wrapper">
+    <div class="header">
+      <a href="https://securenotepad.live/">
+        <img src="https://securenotepad.s3.ap-south-1.amazonaws.com/icon.png" alt="Logo" class="logo" />
+      </a>
+      <a href="https://securenotepad.live/">
+        <h1 class="logo-text">Secure Notepad</h1>
+      </a>
+    </div>
+  </div>
 
-<div id="os-select" style="display: none;">
-  <h3>Select your operating system:</h3>
-  <select id="os-dropdown">
-    <option value="">Select OS</option>
-    <option value="windows">Windows</option>
-    <option value="linux">Linux</option>
-  </select>
-</div>
+  <div class="nav-bar">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#download">Download</a></li>
+    </ul>
+  </div>
 
-          
-          <a href="mailto:cloudpcs017@gmail.com">EMAIL</a>
-          <a href="https://www.instagram.com/call_mee_jery/">INSTAGRAM</a>
-        </div>
-        </div>
+  <div class="video-container">
+    <video autoplay loop muted>
+      <source src="https://securenotepad.s3.ap-south-1.amazonaws.com/bla.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="content-container">
+    <div class="content active">
+      <div class="crossbar">
+        <h2>Welcome to Secure Notepad</h2>
+        <p>
+          Welcome to Secure Notepad, your trusted digital companion for keeping your notes safe and secure. In an age where privacy and data security are paramount, Secure Notepad offers a robust solution to protect your personal and sensitive information.
+        </p>
       </div>
-        </div>
+      <div class="crossbar">
+        <h2>What is Secure Notepad?</h2>
+        <p>
+          Secure Notepad is a feature-rich text editor designed with a focus on data encryption and user privacy. It combines the simplicity of a traditional notepad with advanced security features to ensure that your notes remain confidential and tamper-proof.
+        </p>
+      </div>
+      <div class="crossbar">
+        <h2>Key Features</h2>
+        <ul>
+          <li>
+            <b>AES Encryption:</b> Secure Notepad employs Advanced Encryption Standard (AES) to encrypt your notes, making it virtually impossible for unauthorized users to access your content without the correct password.
+          </li>
+          <li>
+            <b>Password Protection:</b> Every note is protected by a strong password of your choice. Without the correct password, the data remains encrypted and inaccessible.
+          </li>
+          <li>
+            <b>Intuitive User Interface:</b> Our user-friendly interface ensures that you can start using Secure Notepad with ease, whether you're a tech-savvy user or new to encryption.
+          </li>
+          <li>
+            <b>Customization:</b> You can customize the font, font size, and theme to personalize your note-taking experience.
+          </li>
+          <li>
+            <b>Find and Replace:</b> Quickly locate specific content within your notes using the built-in Find and Replace functionality.
+          </li>
+        </ul>
+      </div>
+      <div class="crossbar">
+        <h2>Your Data, Your Security</h2>
+        <p>
+          At Secure Notepad, we understand the importance of your privacy. Your notes are encrypted locally on your device using industry-standard encryption methods. We never store your data on our servers, ensuring that only you have access to your information.
+        </p>
+      </div>
+      <div class="crossbar">
+        <p>Get Started</p>
+        <p>
+          Ready to experience the power of secure note-taking? Download Secure Notepad today and start protecting your thoughts, ideas, and important information. Secure Notepad is available for Windows and Linux, making it accessible to users across various platforms.
+        </p>
+        <p>
+          Your data deserves the highest level of protection, and Secure Notepad is here to deliver that security without compromising on usability.
+        </p>
+        <a href="#" class="download-button">Download Now</a>
+      </div>
     </div>
-    <div class="video-container">
-        <video autoplay loop muted>
-            <source src="https://securenotepad.s3.ap-south-1.amazonaws.com/bla.mp4" type="video/mp4">
-        </video>
-    </div>
-    
-    <div class="content-container">
-        <div class="content active">
-            <div class="crossbar">
-                <h2>Welcome to Secure Notepad</h2>
-                <p>Welcome to Secure Notepad, your trusted digital companion for keeping your notes safe and secure. In an age where privacy and data security are paramount, Secure Notepad offers a robust solution to protect your personal and sensitive information.</p>
-            </div>
-            <div class="crossbar">
-                <h2>What is Secure Notepad?</h2>
-                <p>Secure Notepad is a feature-rich text editor designed with a focus on data encryption and user privacy. It combines the simplicity of a traditional notepad with advanced security features to ensure that your notes remain confidential and tamper-proof.</p>
-            </div>
-            <div class="crossbar">
-                <h2>Key Features</h2>
-                <ul>
-                    <li>AES Encryption: Secure Notepad employs Advanced Encryption Standard (AES) to encrypt your notes, making it virtually impossible for unauthorized users to access your content without the correct password.</li>
-                    <li>Password Protection: Every note is protected by a strong password of your choice. Without the correct password, the data remains encrypted and inaccessible.</li>
-                    <li>Intuitive User Interface: Our user-friendly interface ensures that you can start using Secure Notepad with ease, whether you're a tech-savvy user or new to encryption.</li>
-                    <li>Customization: You can customize the font, font size, and theme to personalize your note-taking experience.</li>
-                    <li>Find and Replace: Quickly locate specific content within your notes using the built-in Find and Replace functionality.</li>
-                    
-                </ul>
-            </div>
-            <div class="crossbar">
-                <h2>Your Data, Your Security</h2>
-                <p>At Secure Notepad, we understand the importance of your privacy. Your notes are encrypted locally on your device using industry-standard encryption methods. We never store your data on our servers, ensuring that only you have access to your information.</p>
-            </div>
-            <div class="crossbar">
-                <p>Get Started</p>
-                <p>Ready to experience the power of secure note-taking? Download Secure Notepad today and start protecting your thoughts, ideas, and important information. Secure Notepad is available for Windows and Linux, making it accessible to users across various platforms.</p>
-                <p>Your data deserves the highest level of protection, and Secure Notepad is here to deliver that security without compromising on usability.</p>
-            </div>
-        </div>
-    </div>
-    <script>
-      // get the download link element
-      const downloadLink = document.getElementById("download-link");
+  </div>
 
-// add a click event listener to the download link
-downloadLink.addEventListener("click", function(event) {
-  // prevent the default behavior of the link
-  event.preventDefault();
+  <script>
+    // Get the download button element
+    const downloadButton = document.querySelector(".download-button");
 
-  // create the OS select popup
-  const osSelect = document.createElement("div");
-  osSelect.id = "os-select";
-  osSelect.style.position = "absolute";
-  osSelect.style.top = "50%";
-  osSelect.style.left = "50%";
-  osSelect.style.transform = "translate(-50%, -50%)";
-  osSelect.style.backgroundColor = "#fff";
-  osSelect.style.padding = "20px";
-  osSelect.style.border = "1px solid #ccc";
-  osSelect.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
-  osSelect.style.zIndex = "9999";
-  osSelect.style.width = "300px";
-  osSelect.style.fontFamily = "Arial, sans-serif";
+    // Add a click event listener to the download button
+    downloadButton.addEventListener("click", function (event) {
+      // Prevent the default behavior of the link
+      event.preventDefault();
 
-  // create the OS select message
-  const osSelectMessage = document.createElement("div");
-  osSelectMessage.textContent = "Select your OS for download:";
-  osSelectMessage.style.marginBottom = "10px";
-  osSelectMessage.style.fontSize = "16px";
-  osSelect.appendChild(osSelectMessage);
+      // Create the OS select popup
+      const osSelect = document.createElement("div");
+      osSelect.id = "os-select";
+      osSelect.style.position = "absolute";
+      osSelect.style.top = "50%";
+      osSelect.style.left = "50%";
+      osSelect.style.transform = "translate(-50%, -50%)";
+      osSelect.style.backgroundColor = "#fff";
+      osSelect.style.padding = "20px";
+      osSelect.style.border = "1px solid #ccc";
+      osSelect.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
+      osSelect.style.zIndex = "9999";
+      osSelect.style.width = "300px";
+      osSelect.style.fontFamily = "Arial, sans-serif";
 
-  // create the OS dropdown
-  const osDropdown = document.createElement("select");
-  osDropdown.id = "os-dropdown";
-  osDropdown.style.marginBottom = "10px";
+      // Create the OS select message
+      const osSelectMessage = document.createElement("h3");
+      osSelectMessage.textContent = "Select your OS for download:";
+      osSelectMessage.style.marginBottom = "10px";
+      osSelectMessage.style.fontSize = "16px";
+      osSelect.appendChild(osSelectMessage);
 
-  // create the Windows option
-  const windowsOption = document.createElement("option");
-  windowsOption.value = "windows";
-  windowsOption.text = "Windows";
-  osDropdown.add(windowsOption);
+      // Create the OS dropdown
+      const osDropdown = document.createElement("select");
+      osDropdown.id = "os-dropdown";
+      osDropdown.style.marginBottom = "10px";
 
-  // create the Linux option
-  const linuxOption = document.createElement("option");
-  linuxOption.value = "linux";
-  linuxOption.text = "Linux";
-  osDropdown.add(linuxOption);
+      // Create the Windows option
+      const windowsOption = document.createElement("option");
+      windowsOption.value = "windows";
+      windowsOption.text = "Windows";
+      osDropdown.add(windowsOption);
 
-  // add the OS dropdown to the popup
-  osSelect.appendChild(osDropdown);
+      // Create the Linux option
+      const linuxOption = document.createElement("option");
+      linuxOption.value = "linux";
+      linuxOption.text = "Linux";
+      osDropdown.add(linuxOption);
 
-  // create the download button container
-  const downloadButtonContainer = document.createElement("div");
-  downloadButtonContainer.style.display = "flex";
-  downloadButtonContainer.style.justifyContent = "center";
+      // Add the OS dropdown to the popup
+      osSelect.appendChild(osDropdown);
 
-  // create the download button
-  const downloadButton = document.createElement("button");
-  downloadButton.textContent = "Download";
-  downloadButton.style.backgroundColor = "#0078d7";
-  downloadButton.style.color = "#fff";
-  downloadButton.style.border = "none";
-  downloadButton.style.padding = "10px 20px";
-  downloadButton.style.borderRadius = "5px";
-  downloadButton.style.cursor = "pointer";
+      // Create the download button container
+      const downloadButtonContainer = document.createElement("div");
+      downloadButtonContainer.style.display = "flex";
+      downloadButtonContainer.style.justifyContent = "center";
 
-  // add a click event listener to the download button
-  downloadButton.addEventListener("click", function() {
-    const os = osDropdown.value;
-    if (os === "windows") {
-      window.location.href = "https://securenotepad.s3.ap-south-1.amazonaws.com/Secure_Notepad.exe";
-    } else if (os === "linux") {
+      // Create the download button
+      const downloadButton2 = document.createElement("button");
+      downloadButton2.textContent = "Download";
+      downloadButton2.style.backgroundColor = "#9370db";
+      downloadButton2.style.color = "#fff";
+      downloadButton2.style.border = "none";
+      downloadButton2.style.padding = "10px 20px";
+      downloadButton2.style.borderRadius = "5px";
+      downloadButton2.style.cursor = "pointer";
+
+      // Add a click event listener to the download button
+      downloadButton2.addEventListener("click", function () {
+        const os = osDropdown.value;
+        if (os === "windows") {
+          window.location.href = "https://securenotepad.s3.ap-south-1.amazonaws.com/Secure_Notepad.exe";
+        } else if (os === "linux") {
       window.location.href = "https://securenotepad.s3.ap-south-1.amazonaws.com/Secure_Notepad.deb";
     }
   });
